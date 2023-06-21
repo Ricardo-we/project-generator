@@ -9,14 +9,6 @@ import (
 	"github.com/manifoldco/promptui"
 )
 
-func getRepoMap() map[string]string {
-	REPO_LIST := make(map[string]string)
-	REPO_LIST["flutter"] = "https://gitlab.com/vieri.garcia04/dart-ptemplate"
-
-	return REPO_LIST
-
-}
-
 func main() {
 	templates := &promptui.SelectTemplates{
 		Active:   "{{ .| green }}",
@@ -25,14 +17,14 @@ func main() {
 
 	prompt := promptui.Select{
 		Label:     "Select project type",
-		Items:     settings.FormatProjectTypesLabel(),
+		Items:     settings.ProjectTypes[:],
 		Templates: templates,
 	}
 
 	_, repoName, err := prompt.Run()
 	utils.HandleError(err)
 
-	repoMap := getRepoMap()
+	repoMap := settings.GetRepoMap()
 	repoUrl := repoMap[repoName]
 
 	if repoName == "flutter" {
