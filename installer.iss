@@ -2,6 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "project-generator"
+#define MyAppMutex "project-generator"
 #define MyAppVersion "1.0.0"
 #define MyAppPublisher "rdev-products"
 #define MyAppURL "https://rdev-portfolio.onrender.com/"
@@ -13,6 +14,7 @@
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application. Do not use the same AppId value in installers for other applications.
 ; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
+AppMutex={#MyAppMutex}
 AppId={{5233EE90-FD5D-4F53-A7E8-F1C7515EC8B4}
 AppName={#MyAppName}
 AppVersion={#MyAppVersion}

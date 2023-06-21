@@ -1,7 +1,7 @@
 package main
 
 import (
-	"fmt"
+	"os"
 	"project-generator/src/blocks"
 	"project-generator/src/settings"
 	"project-generator/src/utils"
@@ -21,19 +21,29 @@ func main() {
 		Templates: templates,
 	}
 
+	projectNamePrompt := promptui.Prompt{
+		Label:       "Type project name",
+		HideEntered: true,
+	}
+
 	_, repoName, err := prompt.Run()
+	projectName, projectNameErr := projectNamePrompt.Run()
+	projectPath := utils.RequestFolder()
+	projectPath = projectPath + "\\" + projectName
+	os.MkdirAll(projectPath, 0755)
+
 	utils.HandleError(err)
+	utils.HandleError(projectNameErr)
 
 	repoMap := settings.GetRepoMap()
 	repoUrl := repoMap[repoName]
 
 	if repoName == "flutter" {
-		blocks.FlutterInstall(repoUrl)
+		blocks.FlutterInstall(repoUrl, projectPath)
 	} else if repoName == "node" {
 		blocks.NodeInstall(repoUrl)
 	}
 
-	fmt.Println("¡Completed!")
 	// fmt.Print("Hey", repoName)
 
 }
