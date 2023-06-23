@@ -5,7 +5,7 @@ import (
 )
 
 func CloneRepo(repoUrl string, dir string) {
-	cmd := exec.Command("git", "clone", repoUrl)
+	cmd := exec.Command("git", "clone", repoUrl, ".")
 	cmd.Dir = dir
 	err := cmd.Run()
 

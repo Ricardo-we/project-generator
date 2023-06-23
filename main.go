@@ -5,7 +5,6 @@ import (
 	"project-generator/src/blocks"
 	"project-generator/src/settings"
 	"project-generator/src/utils"
-
 	"github.com/manifoldco/promptui"
 )
 
@@ -41,7 +40,10 @@ func main() {
 	if repoName == "flutter" {
 		blocks.FlutterInstall(repoUrl, projectPath)
 	} else if repoName == "node" {
-		blocks.NodeInstall(repoUrl)
+		blocks.NodeInstall(repoUrl, projectPath)
+	}
+	if(len(projectPath) > 0){
+		os.RemoveAll(projectPath + "\\" + ".git")
 	}
 
 	// fmt.Print("Hey", repoName)
