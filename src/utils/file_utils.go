@@ -3,7 +3,6 @@ package utils
 import (
 	"fmt"
 	"os/exec"
-
 	"github.com/sqweek/dialog"
 )
 
