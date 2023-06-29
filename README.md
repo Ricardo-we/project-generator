@@ -5,4 +5,4 @@
 3. Try running the command in a command prompt `project-generator`
 
 ## Installer
-[Download installer](/ProjectGeneratorSetup.exe)
+[Download installer](https://github.com/Ricardo-we/project-generator/releases/download/Installer/ProjectGeneratorSetup.exe)
