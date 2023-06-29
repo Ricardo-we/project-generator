@@ -1,17 +1,31 @@
 package blocks
 
 import (
+	"fmt"
 	"project-generator/src/utils"
 )
 
-func FlutterInstall(repoUrl string, projectDir string) {
-	utils.UseSimpleRepoInstall(repoUrl, projectDir, []string{"flutter", "pub", "get"})
-	// utils.CloneRepo(repoUrl, projectDir)
+func FlutterInstall(repoUrl string, projectDir string, branchName string) error {
+	options := utils.UseSimpleRepoInstallOptions{
+		Branch: branchName,
+	}
 
-	// cmd := exec.Command("flutter", "pub", "get")
-	// cmd.Dir = projectDir
-	// err := cmd.Run()
-	// utils.HandleError(err)
-	// fmt.Println("¡Completed!")
+	cloneErr := utils.UseSimpleRepoInstall(
+		repoUrl,
+		projectDir,
+		options,
+	)
 
+	if cloneErr != nil {
+		return cloneErr
+	}
+
+	fmt.Println("Installing dependencies...")
+	err := utils.ExecCommand(projectDir, []string{"flutter", "pub", "get"})
+	
+	if err != nil {
+		fmt.Println("Dependencie installation failed...")
+	}
+
+	return nil
 }

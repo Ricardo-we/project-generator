@@ -2,28 +2,40 @@ package utils
 
 import (
 	"fmt"
-	"os/exec"
+	"os"
+
 	"github.com/sqweek/dialog"
 )
 
+type UseSimpleRepoInstallOptions struct {
+	Branch string
+}
+
 func RequestFolder() string {
-	filepath, err := dialog.Directory().Title("Select directory").Browse()
+	wd, wdErr := os.Getwd()
+	filepath, err := dialog.Directory().Title("Select directory").SetStartDir(wd).Browse()
 
 	if err != nil {
 		HandleError(err)
+	} else if wdErr != nil {
+		HandleError(wdErr)
 	}
 
 	return filepath
 }
 
-func UseSimpleRepoInstall(repoUrl string, projectDir string, commandAfter []string){
-	fmt.Println("Loading...")
-	CloneRepo(repoUrl, projectDir)
+func UseSimpleRepoInstall(repoUrl string, projectDir string, options UseSimpleRepoInstallOptions) error {
+	fmt.Println("Clonning repositorie...")
+	cloneErr := CloneRepo(repoUrl, projectDir, options)
 
-	// cmd := exec.Command("flutter", "pub", "get")
-	cmd := exec.Command(commandAfter[0], commandAfter[1:]...)
-	cmd.Dir = projectDir
-	err := cmd.Run()
-	HandleError(err)
-	fmt.Println("¡Completed!")
+	if cloneErr != nil {
+		fmt.Println("Error clonning repositorie...")
+		return cloneErr
+	} else {
+		fmt.Println("Cloned repo: ", repoUrl, " branch: ", options.Branch)
+	}
+
+	HandleError(cloneErr)
+	
+	return cloneErr
 }
